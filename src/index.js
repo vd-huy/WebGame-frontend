@@ -1,13 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom";
+import Home from "./pages/Home";
+import Blog from "./pages/Blog";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import NewGame from "./pages/NewGame";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<App />}>
+      <Route index element={<Home />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/newgames" element={<NewGame />} />
+    </Route>
+  )
+);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 
