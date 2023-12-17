@@ -16,6 +16,7 @@ import Signup from "./pages/Signup";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import NewGame from "./pages/NewGame";
+import AddSlide from "./pages/AddSlide";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/newgames" element={<NewGame />} />
+      <Route path="/addslide" element={<AddSlide />} />
     </Route>
   )
 );

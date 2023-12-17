@@ -227,7 +227,6 @@ const Signup = () => {
       );
 
       const dataRes = await fetchData.json();
-      console.log(dataRes);
 
       toast(dataRes.message);
 

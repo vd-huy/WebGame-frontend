@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setDataCategory } from "../redux/categorySlice";
+import toast from "react-hot-toast";
 
 const Container = styled.div`
   display: flex;
@@ -33,62 +34,20 @@ const WrapInput = styled.div`
 
 const LabelInput = styled.label``;
 
-const NameGame = styled.input`
+const Input = styled.input`
   width: 250px;
   height: 30px;
 
   font-size: 14px;
 `;
 
-const ImageGame = styled.input`
-  width: 250px;
-  height: 30px;
-  font-size: 14px;
-`;
-
-const PlotGame = styled.textarea`
+const InputArea = styled.textarea`
   width: 500px;
   height: 120px;
   resize: none;
-`;
-
-const GamePlay = styled.textarea`
-  width: 500px;
-  height: 120px;
-  resize: none;
-`;
-
-const GamePlayVideo = styled.input`
-  width: 250px;
-  height: 30px;
-  font-size: 14px;
-`;
-
-const DeveloperGame = styled.input`
-  width: 250px;
-  height: 30px;
-  font-size: 14px;
-`;
-
-const PublicBy = styled.input`
-  width: 250px;
-  height: 30px;
-  font-size: 14px;
 `;
 
 const ReleaseGame = styled.input`
-  width: 250px;
-  height: 30px;
-  font-size: 14px;
-`;
-
-const FileSize = styled.input`
-  width: 250px;
-  height: 30px;
-  font-size: 14px;
-`;
-
-const VideoGame = styled.input`
   width: 250px;
   height: 30px;
   font-size: 14px;
@@ -117,9 +76,9 @@ const NewGame = () => {
     releaseGame: "",
     fileSize: "",
     videoGame: "",
+    titleVideo: "",
+    linkDowload: "",
   });
-
-  const [typeGame, setTypeGame] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -133,22 +92,19 @@ const NewGame = () => {
   const handleOnChangeCheckbox = (e) => {
     const { value, checked } = e.target;
 
+    const { gameType } = dataSend;
+
     if (checked) {
-      setTypeGame(() => {
-        return [...typeGame, value];
+      setDataSend({
+        ...dataSend,
+        gameType: [...gameType, value],
       });
     } else {
-      setTypeGame(() => {
-        return typeGame.filter((item) => item !== value);
+      setDataSend({
+        ...dataSend,
+        gameType: gameType.filter((item) => item !== value),
       });
     }
-
-    setDataSend((prev) => {
-      return {
-        ...prev,
-        gameType: typeGame,
-      };
-    });
   };
 
   const handleOnChange = (e) => {
@@ -160,8 +116,6 @@ const NewGame = () => {
         [name]: value,
       };
     });
-
-    console.log(dataSend);
   };
 
   const handleSubmit = async (e) => {
@@ -179,6 +133,7 @@ const NewGame = () => {
       publicBy,
       releaseGame,
       videoGame,
+      titleVideo,
     } = dataSend;
 
     if (
@@ -186,13 +141,13 @@ const NewGame = () => {
       fileSize &&
       gamePlay &&
       gamePlayVideo &&
-      gameType &&
       imgGame &&
       nameGame &&
       plotGame &&
       publicBy &&
       releaseGame &&
-      videoGame
+      videoGame &&
+      titleVideo
     ) {
       const fetchData = await fetch(
         `${process.env.REACT_APP_SERVER_DOMIN}/game/newgame`,
@@ -204,6 +159,31 @@ const NewGame = () => {
           body: JSON.stringify(dataSend),
         }
       );
+
+      const dataRes = await fetchData.json();
+
+      if (dataRes.alert) {
+        toast(dataRes.message);
+
+        setDataSend({
+          nameGame: "",
+          imgGame: "",
+          plotGame: "",
+          gamePlay: "",
+          gamePlayVideo: "",
+          developerGame: "",
+          publicBy: "",
+          gameType: [],
+          releaseGame: "",
+          fileSize: "",
+          videoGame: "",
+          titleVideo: "",
+          linkDowload: "",
+        });
+        window.location.reload(false);
+      } else {
+        toast(dataRes.message);
+      }
     }
   };
 
@@ -213,7 +193,7 @@ const NewGame = () => {
       <FormAddGame onSubmit={handleSubmit}>
         <WrapInput>
           <LabelInput>Nhập tên Game : </LabelInput>
-          <NameGame
+          <Input
             onChange={handleOnChange}
             name="nameGame"
             value={dataSend.nameGame}
@@ -222,7 +202,7 @@ const NewGame = () => {
 
         <WrapInput>
           <LabelInput>Nhập ảnh Baner : </LabelInput>
-          <ImageGame
+          <Input
             onChange={handleOnChange}
             name="imgGame"
             value={dataSend.imgGame}
@@ -231,7 +211,7 @@ const NewGame = () => {
 
         <WrapInput>
           <LabelInput>Cốt truyện : </LabelInput>
-          <PlotGame
+          <InputArea
             onChange={handleOnChange}
             name="plotGame"
             value={dataSend.plotGame}
@@ -240,7 +220,7 @@ const NewGame = () => {
 
         <WrapInput>
           <LabelInput> Game Play : </LabelInput>
-          <GamePlay
+          <InputArea
             onChange={handleOnChange}
             name="gamePlay"
             value={dataSend.gamePlay}
@@ -249,7 +229,7 @@ const NewGame = () => {
 
         <WrapInput>
           <LabelInput>Video Game Play : </LabelInput>
-          <GamePlayVideo
+          <Input
             onChange={handleOnChange}
             name="gamePlayVideo"
             value={dataSend.gamePlayVideo}
@@ -258,7 +238,7 @@ const NewGame = () => {
 
         <WrapInput>
           <LabelInput>Nhà phát triển : </LabelInput>
-          <DeveloperGame
+          <Input
             onChange={handleOnChange}
             name="developerGame"
             value={dataSend.developerGame}
@@ -267,7 +247,7 @@ const NewGame = () => {
 
         <WrapInput>
           <LabelInput> Nhà xuất bản : </LabelInput>
-          <PublicBy
+          <Input
             onChange={handleOnChange}
             name="publicBy"
             value={dataSend.publicBy}
@@ -276,7 +256,7 @@ const NewGame = () => {
 
         <WrapInput>
           <LabelInput> Thể Loại : </LabelInput>
-          {dataCategory.map((item) => {
+          {dataCategory.map((item, index) => {
             return (
               <>
                 <TypeGame
@@ -290,6 +270,26 @@ const NewGame = () => {
               </>
             );
           })}
+
+          {/* <TypeGame
+            type="checkbox"
+            id="gameSinhTon"
+            name="TypeGame"
+            checked={isChecked[0]}
+            value="Game sinh tồn"
+            onChange={() => handleOnChangeCheckbox(0)}
+          />
+          <LabelInput for="gameSinhTon">Game sinh tồn</LabelInput>
+
+          <TypeGame
+            type="checkbox"
+            id="gameSinhTon"
+            name="TypeGame"
+            checked={isChecked[1]}
+            value="Game sinh tồn"
+            onChange={() => handleOnChangeCheckbox(1)}
+          /> */}
+          {/* <LabelInput for="gameSinhTon">Game sinh tồn</LabelInput> */}
         </WrapInput>
 
         <WrapInput>
@@ -304,7 +304,7 @@ const NewGame = () => {
 
         <WrapInput>
           <LabelInput>File tải về : </LabelInput>
-          <FileSize
+          <Input
             onChange={handleOnChange}
             name="fileSize"
             value={dataSend.fileSize}
@@ -313,10 +313,27 @@ const NewGame = () => {
 
         <WrapInput>
           <LabelInput> Video Game :</LabelInput>
-          <VideoGame
+          <Input
             onChange={handleOnChange}
             name="videoGame"
             value={dataSend.videoGame}
+          />
+        </WrapInput>
+
+        <WrapInput>
+          <LabelInput> Title Video :</LabelInput>
+          <Input
+            onChange={handleOnChange}
+            name="titleVideo"
+            value={dataSend.titleVideo}
+          />
+        </WrapInput>
+        <WrapInput>
+          <LabelInput> Link dowload :</LabelInput>
+          <Input
+            onChange={handleOnChange}
+            name="linkDowload"
+            value={dataSend.linkDowload}
           />
         </WrapInput>
 
