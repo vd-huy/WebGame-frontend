@@ -3,12 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import { setDataSlide } from "../redux/slideSlice";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import Search from "./Search";
+import { devices } from "../responsive";
 
 const Container = styled.div`
   margin-top: 20px;
   padding: 0 calc((100vw - 1140px) / 2);
   display: flex;
   justify-content: space-between;
+
+  @media ${devices.tabletAndMobile} {
+    flex-direction: column;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const Icon = styled.span`
@@ -25,11 +34,14 @@ const Icon = styled.span`
   transform: translateX(
     ${(props) => (props.desc === "left" ? "10px" : "-10px")}
   );
+
+  @media ${devices.tabletAndMobile} {
+    display: block;
+  }
 `;
 
 const Slide = styled.div`
   width: 66.66666%;
-  width: 100vw;
   position: relative;
   background-color: #eff0f3;
   max-width: 676px;
@@ -37,6 +49,10 @@ const Slide = styled.div`
   &:hover ${Icon} {
     opacity: 1;
     transform: translateX(0);
+  }
+
+  @media ${devices.tabletAndMobile} {
+    width: 90%;
   }
 `;
 
@@ -49,11 +65,16 @@ const ImgSlide = styled.img`
   margin-right: 30px;
   cursor: pointer;
   animation: ${(props) => appearAnimate(props.action)} 0.4s ease-in;
+
+  @media ${devices.mobile} {
+    width: 90%;
+    margin: auto;
+  }
 `;
 
 const appearAnimate = (action) => keyframes`
 from {
-      opacity: 0;
+      opacity: 0.6;
       transform: translateX(${action ? "-10%" : "10%"});
     }
     to {
@@ -63,21 +84,34 @@ from {
 
 const WrapDot = styled.div`
   display: flex;
-  justify-content: space-between;
   margin: 0 30px;
+  position: absolute;
+  bottom: 15px;
+  right: 20%;
+  left: 20%;
 `;
 
 const DotSlice = styled.div`
-  width: 15px;
-  height: 15px;
-  background-color: red;
+  width: 12px;
+  height: 12px;
+  margin: 0 5px;
   border-radius: 50%;
-  background-color: #c3c2c3;
+  background-color: ${(props) =>
+    props.index === props.indexSlide ? "#ffffff" : "#c3c2c3"};
+
+  cursor: pointer;
 `;
 
-const Search = styled.div`
+const SearchContainer = styled.div`
   width: 33.33333%;
-  background-color: red;
+  border: 1px #d9534f solid;
+  border-radius: 5px;
+  overflow: hidden;
+
+  @media ${devices.tabletAndMobile} {
+    width: 90%;
+    margin-top: 20px;
+  }
 `;
 
 const Slideder = () => {
@@ -124,6 +158,15 @@ const Slideder = () => {
     });
   };
 
+  const handleSelectSilde = (index) => {
+    setIndexSlide(index);
+    if (index > indexSlide) {
+      setAction(true);
+    } else {
+      setAction(false);
+    }
+  };
+
   return (
     <Container>
       <Slide>
@@ -146,7 +189,13 @@ const Slideder = () => {
 
         <WrapDot>
           {dataSlide.map((item, index) => {
-            return <DotSlice></DotSlice>;
+            return (
+              <DotSlice
+                index={index}
+                indexSlide={indexSlide}
+                onClick={() => handleSelectSilde(index)}
+              ></DotSlice>
+            );
           })}
         </WrapDot>
 
@@ -155,7 +204,9 @@ const Slideder = () => {
         </Icon>
       </Slide>
 
-      <Search></Search>
+      <SearchContainer>
+        <Search />
+      </SearchContainer>
     </Container>
   );
 };
