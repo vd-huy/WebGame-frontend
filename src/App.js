@@ -4,9 +4,11 @@ import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { setDataCategory } from "./redux/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setDataGame } from "./redux/gameSlice";
 
 function App() {
   const categoryData = useSelector((state) => state.category);
+  const gameyData = useSelector((state) => state.game.gameList);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,7 +20,18 @@ function App() {
     })();
   }, []);
 
-  console.log(categoryData);
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_DOMIN}/game/getgame`
+      );
+      const resData = await res.json();
+
+      dispatch(setDataGame(resData));
+    })();
+  }, []);
+
+  console.log(gameyData);
 
   return (
     <>

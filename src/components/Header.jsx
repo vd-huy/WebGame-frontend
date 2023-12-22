@@ -9,17 +9,18 @@ import { setDataCategory } from "../redux/categorySlice";
 import { devices } from "../responsive";
 import { IoMenu } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
+import { paddingContainer, widthContainer } from "../globalVariable";
 
 const Container = styled.div`
   height: 92px;
   background-color: #127cc3;
   display: flex;
   /* justify-content: center; */
-  padding: 0 calc((100vw - 1140px) / 2);
+  padding: ${(props) => props.paddingContainer};
 `;
 
 const Nav = styled.nav`
-  width: 1140px;
+  width: ${(props) => props.widthContainer};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -280,8 +281,8 @@ const Header = () => {
   };
 
   return (
-    <Container>
-      <Nav>
+    <Container paddingContainer={paddingContainer}>
+      <Nav widthContainer={widthContainer}>
         <NavMenu>
           <NavIcon onClick={handleHiddenMenu}>
             <IoMenu />

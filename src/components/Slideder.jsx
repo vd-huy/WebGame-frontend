@@ -5,10 +5,11 @@ import { setDataSlide } from "../redux/slideSlice";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import Search from "./Search";
 import { devices } from "../responsive";
+import { paddingContainer } from "../globalVariable";
 
 const Container = styled.div`
   margin-top: 20px;
-  padding: 0 calc((100vw - 1140px) / 2);
+  padding: ${(props) => props.paddingContainer};
   display: flex;
   justify-content: space-between;
 
@@ -102,18 +103,6 @@ const DotSlice = styled.div`
   cursor: pointer;
 `;
 
-const SearchContainer = styled.div`
-  width: 33.33333%;
-  border: 1px #d9534f solid;
-  border-radius: 5px;
-  overflow: hidden;
-
-  @media ${devices.tabletAndMobile} {
-    width: 90%;
-    margin-top: 20px;
-  }
-`;
-
 const Slideder = () => {
   const dataSlide = useSelector((state) => state.slide.slideList);
 
@@ -168,7 +157,7 @@ const Slideder = () => {
   };
 
   return (
-    <Container>
+    <Container paddingContainer={paddingContainer}>
       <Slide>
         <Icon desc={"left"} onClick={handleReduceSlice}>
           <GrFormPrevious />
@@ -204,9 +193,9 @@ const Slideder = () => {
         </Icon>
       </Slide>
 
-      <SearchContainer>
-        <Search />
-      </SearchContainer>
+      {/* <SearchContainer> */}
+      <Search />
+      {/* </SearchContainer> */}
     </Container>
   );
 };

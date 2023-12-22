@@ -6,5 +6,6 @@ const sizes = {
 export const devices = {
   mobile: "(max-width: 767px)",
   tablet: `(min-width: 768px) and (max-width: 1023px)`,
+  tabletAndMobile: `(max-width: 1023px)`,
   laptop: `(min-width: 1024px)`,
 };

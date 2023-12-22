@@ -4,7 +4,18 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { devices } from "../responsive";
 
-const Container = styled.div``;
+const Container = styled.div`
+  width: 33.33333%;
+  border: 1px #d9534f solid;
+  border-radius: 5px;
+  overflow: hidden;
+  max-height: 328px;
+
+  @media ${devices.tabletAndMobile} {
+    width: 90%;
+    margin-top: 20px;
+  }
+`;
 
 const Title = styled.h3`
   margin: 0;
@@ -21,6 +32,7 @@ const FormSearch = styled.form`
   display: flex;
   flex-direction: column;
   padding: 0 20px;
+
   @media ${devices.tablet} {
     padding: 0 15px;
   }
@@ -88,8 +100,6 @@ const Search = () => {
     });
   };
 
-  console.log(dataFilter);
-
   const handleSearch = (dataFilter) => {
     navigate(
       `/search/?nameGame=${dataFilter.nameGame}&filterCategory=${dataFilter.filterCategory}`
@@ -114,7 +124,7 @@ const Search = () => {
         <Select name="filterCategory" onChange={handleOnChange}>
           <Option value="">Tất cả thể loại</Option>
           {dataCategory.map((item) => {
-            return <Option value={item.slug}>{item.category}</Option>;
+            return <Option value={item.gameType}>{item.category}</Option>;
           })}
         </Select>
 
