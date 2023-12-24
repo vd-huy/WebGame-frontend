@@ -31,7 +31,25 @@ const FindGame = () => {
 
   const dataGame = useSelector((state) => state.game.gameList);
 
+  const [isNull, setIsNull] = useState(true);
+
+  useEffect(() => {
+    if (nameGame !== "" && filterCategory !== "") {
+      setIsNull(false);
+    }
+  }, [nameGame, filterCategory]);
+
   const filter = dataGame.filter((item) => {
+    if (nameGame !== "" || filterCategory !== "") {
+      for (let index = 0; index < item.gameType.length; index++) {
+        if (
+          item.gameType[index].toLowerCase() === filterCategory.toLowerCase()
+        ) {
+          return item.nameGame.includes(nameGame);
+        }
+      }
+    }
+
     if (nameGame === "") {
       for (let index = 0; index < item.gameType.length; index++) {
         if (
@@ -40,19 +58,21 @@ const FindGame = () => {
           return item;
         }
       }
-    } else if (filterCategory === "") {
+    }
+
+    if (filterCategory === "") {
       return item.nameGame.includes(nameGame);
     }
   });
 
-  console.log(filter);
+  console.log(nameGame);
 
   return (
     <Container>
       <Header />
 
       <Wrap paddingContainer={paddingContainer}>
-        <ListGameSearch filterData={filter} />
+        <ListGameSearch filterData={filter} isNull={isNull} />
         <Search />
       </Wrap>
     </Container>

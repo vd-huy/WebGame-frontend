@@ -9,7 +9,8 @@ const Container = styled.div`
   border: 1px #d9534f solid;
   border-radius: 5px;
   overflow: hidden;
-  max-height: 328px;
+  max-height: 340px;
+  min-height: 340px;
 
   @media ${devices.tabletAndMobile} {
     width: 90%;

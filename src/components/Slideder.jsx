@@ -119,7 +119,6 @@ const Slideder = () => {
         `${process.env.REACT_APP_SERVER_DOMIN}/slide/getslides`
       );
       const resData = await res.json();
-      console.log(resData);
 
       dispatch(setDataSlide(resData));
     })();

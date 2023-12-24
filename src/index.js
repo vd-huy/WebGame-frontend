@@ -28,7 +28,7 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<Signup />} />
       <Route path="/newgames" element={<NewGame />} />
       <Route path="/addslide" element={<AddSlide />} />
-      <Route path="/search/?" element={<FindGame />} />
+      <Route path="/search/" element={<FindGame />} />
     </Route>
   )
 );
