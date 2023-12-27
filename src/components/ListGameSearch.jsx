@@ -10,7 +10,8 @@ const Container = styled.div`
 `;
 
 const ImgNoSearch = styled.img`
-  width: 100%;
+  width: 90%;
+  border: 1px solid black;
 `;
 
 const ListGameSearch = ({ filterData, isNull }) => {
@@ -18,14 +19,28 @@ const ListGameSearch = ({ filterData, isNull }) => {
 
   const [pageCount, setPageCount] = useState(1);
 
+  const viewGameDisplay = 4;
+
+  const [startDisplay, setStartDisplay] = useState(0);
+  const [endDisplay, setEndDisplay] = useState(viewGameDisplay);
+
+  useEffect(() => {
+    // lam tron len
+    setPageCount(Math.ceil(filterData.length / viewGameDisplay));
+  }, [filterData]);
+
   const handlePageClick = (e) => {
-    console.log(e.selected);
+    let selectedPage = e.selected;
+    console.log(selectedPage);
+
+    setStartDisplay(selectedPage * viewGameDisplay);
+    setEndDisplay((selectedPage + 1) * viewGameDisplay);
   };
 
   return (
     <Container>
       {filterData[0] ? (
-        filterData.map((item, index) => {
+        filterData.slice(startDisplay, endDisplay).map((item, index) => {
           return (
             <GameSearchItem imgGame={item.imgGame} nameGame={item.nameGame} />
           );
@@ -40,25 +55,27 @@ const ListGameSearch = ({ filterData, isNull }) => {
         <ImgNoSearch src={noResult} />
       )}
 
-      <ReactPaginate
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={2}
-        pageCount={pageCount}
-        previousLabel="< previous"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakLabel="..."
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        containerClassName="pagination"
-        activeClassName="active"
-      />
+      {filterData.length > 5 && (
+        <ReactPaginate
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={2}
+          pageCount={pageCount}
+          previousLabel="<"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+        />
+      )}
     </Container>
   );
 };

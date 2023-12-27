@@ -7,6 +7,7 @@ import ListGameSearch from "../components/ListGameSearch";
 import { devices } from "../responsive";
 import { paddingContainer } from "../globalVariable";
 import { useSelector } from "react-redux";
+import Footer from "../components/Footer";
 
 const Container = styled.div``;
 
@@ -75,6 +76,8 @@ const FindGame = () => {
         <ListGameSearch filterData={filter} isNull={isNull} />
         <Search />
       </Wrap>
+
+      <Footer />
     </Container>
   );
 };

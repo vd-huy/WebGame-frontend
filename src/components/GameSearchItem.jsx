@@ -16,6 +16,8 @@ const Container = styled.div`
 const ImageGame = styled.img`
   padding-right: 10px;
   max-width: 310px;
+
+  height: 172px;
 `;
 
 const NameGame = styled.h2`
