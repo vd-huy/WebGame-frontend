@@ -4,7 +4,11 @@ import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { setDataCategory } from "./redux/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
-import { setDataGame } from "./redux/gameSlice";
+import {
+  setDataGame,
+  sortByDateCreateAt,
+  sortByDateUpdateAt,
+} from "./redux/gameSlice";
 
 function App() {
   const categoryData = useSelector((state) => state.category);
@@ -28,6 +32,8 @@ function App() {
       const resData = await res.json();
 
       dispatch(setDataGame(resData));
+      dispatch(sortByDateCreateAt(resData));
+      dispatch(sortByDateUpdateAt(resData));
     })();
   }, []);
 

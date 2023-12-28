@@ -168,7 +168,8 @@ const TextLogin = styled.span`
 `;
 
 const Login = styled.div`
-  height: 16px;
+  width: 100px;
+  height: 32px;
   font-size: 14px;
   background-color: #29ae62;
   color: white;
@@ -184,6 +185,7 @@ const Login = styled.div`
 
   @media ${devices.mobile} {
     flex: 1;
+    max-width: 50px;
   }
 `;
 
@@ -224,7 +226,6 @@ const MenuLogin = styled.ul`
 `;
 
 const MenuLoginItem = styled.li`
-  height: 30px;
   color: black;
   opacity: 0.6;
   border-bottom: 1px;
