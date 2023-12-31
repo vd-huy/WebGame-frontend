@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { loginRedux } from "../redux/userSlice";
 import { devices } from "../responsive";
+import { fetchLoginAPI } from "../apis";
 
 const Container = styled.div`
   width: 100%;
@@ -199,27 +200,16 @@ const Login = () => {
 
     const { email, password } = data;
     if (email && password) {
-      const fetchData = await fetch(
-        `${process.env.REACT_APP_SERVER_DOMIN}/user/login`,
-        {
-          method: "post",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(data),
+      fetchLoginAPI(data).then((dataRes) => {
+        toast(dataRes.message);
+
+        if (dataRes.alert) {
+          dispatch(loginRedux(dataRes));
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         }
-      );
-
-      const dataRes = await fetchData.json();
-
-      toast(dataRes.message);
-
-      if (dataRes.alert) {
-        dispatch(loginRedux(dataRes));
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
-      }
+      });
     }
   };
 

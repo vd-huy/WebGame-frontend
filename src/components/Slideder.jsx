@@ -106,23 +106,10 @@ const DotSlice = styled.div`
 const Slideder = () => {
   const dataSlide = useSelector((state) => state.slide.slideList);
 
-  const dispatch = useDispatch();
-
   const [indexSlide, setIndexSlide] = useState(0);
   const [action, setAction] = useState(false);
 
   const SlideLength = dataSlide.length - 1;
-
-  useEffect(() => {
-    (async () => {
-      const res = await fetch(
-        `${process.env.REACT_APP_SERVER_DOMIN}/slide/getslides`
-      );
-      const resData = await res.json();
-
-      dispatch(setDataSlide(resData));
-    })();
-  }, []);
 
   const handleReduceSlice = () => {
     setIndexSlide(indexSlide > 0 ? indexSlide - 1 : SlideLength);

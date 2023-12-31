@@ -2,12 +2,19 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import toast from "react-hot-toast";
+import { fetchNewSlideAPI } from "../apis";
+import { devices } from "../responsive";
 
 const Container = styled.div`
+  width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media ${devices.mobile} {
+    width: 100%;
+  }
 `;
 
 const Title = styled.label`
@@ -22,6 +29,9 @@ const FormAddGame = styled.form`
   width: 40%;
   border: 1px solid black;
   padding: 20px;
+  @media ${devices.mobile} {
+    width: 100%;
+  }
 `;
 
 const WrapInput = styled.div`
@@ -64,24 +74,12 @@ const AddSlide = () => {
     const { imgSlide } = dataSend;
 
     if (imgSlide) {
-      const fetchData = await fetch(
-        `${process.env.REACT_APP_SERVER_DOMIN}/slide/newslides`,
-        {
-          method: "post",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(dataSend),
+      fetchNewSlideAPI(dataSend).then((dataRes) => {
+        if (dataRes.alert) {
+          toast(dataRes.message);
+          setDataSend({ imgSlide: "" });
         }
-      );
-
-      const dataRes = await fetchData.json();
-      console.log(dataRes);
-
-      if (dataRes.alert) {
-        toast(dataRes.message);
-        setDataSend({ imgSlide: "" });
-      }
+      });
     }
   };
 

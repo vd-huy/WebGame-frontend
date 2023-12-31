@@ -12,6 +12,7 @@ import Footer from "../components/Footer";
 const Container = styled.div``;
 
 const Wrap = styled.div`
+  min-height: 740px;
   margin-top: 20px;
   padding: ${(props) => props.paddingContainer};
   display: flex;

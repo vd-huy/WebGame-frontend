@@ -244,15 +244,6 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    (async () => {
-      const res = await fetch(`${process.env.REACT_APP_SERVER_DOMIN}/category`);
-      const resData = await res.json();
-
-      dispatch(setDataCategory(resData));
-    })();
-  }, []);
-
   const navigate = useNavigate();
 
   const [active, setActive] = useState(false);
@@ -332,6 +323,10 @@ const Header = () => {
             <MenuLogin active={active}>
               {userData.role === "admin" && (
                 <>
+                  <StyleLink role={"dropMenu"} to={"/getlistgames"}>
+                    <MenuLoginItem>Danh Sách Game</MenuLoginItem>
+                  </StyleLink>
+
                   <StyleLink role={"dropMenu"} to={"/addslide"}>
                     <MenuLoginItem>Thêm Slide</MenuLoginItem>
                   </StyleLink>

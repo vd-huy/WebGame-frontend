@@ -3,41 +3,37 @@ import "./App.css";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { setDataCategory } from "./redux/categorySlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   setDataGame,
   sortByDateCreateAt,
   sortByDateUpdateAt,
 } from "./redux/gameSlice";
+import { fetchCategoryAPI, fetchGameAPI, fetchGetSlideAPI } from "./apis";
+import { setDataSlide } from "./redux/slideSlice";
 
 function App() {
-  const categoryData = useSelector((state) => state.category);
-  const gameyData = useSelector((state) => state.game.gameList);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      const res = await fetch(`${process.env.REACT_APP_SERVER_DOMIN}/category`);
-      const resData = await res.json();
-
+    fetchCategoryAPI().then((resData) => {
       dispatch(setDataCategory(resData));
-    })();
+    });
   }, []);
 
   useEffect(() => {
-    (async () => {
-      const res = await fetch(
-        `${process.env.REACT_APP_SERVER_DOMIN}/game/getgame`
-      );
-      const resData = await res.json();
-
+    fetchGameAPI().then((resData) => {
       dispatch(setDataGame(resData));
       dispatch(sortByDateCreateAt(resData));
       dispatch(sortByDateUpdateAt(resData));
-    })();
+    });
   }, []);
 
-  console.log(gameyData);
+  useEffect(() => {
+    fetchGetSlideAPI().then((dataSlide) => {
+      dispatch(setDataSlide(dataSlide));
+    });
+  });
 
   return (
     <>

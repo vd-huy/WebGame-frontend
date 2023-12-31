@@ -7,6 +7,7 @@ import { BiShow, BiHide } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { devices } from "../responsive";
+import { fetchSignupAPI } from "../apis";
 
 const Container = styled.div`
   width: 100%;
@@ -215,26 +216,15 @@ const Signup = () => {
     e.preventDefault();
     const { userName, email, password } = data;
     if (userName && email && password) {
-      const fetchData = await fetch(
-        `${process.env.REACT_APP_SERVER_DOMIN}/user/signup`,
-        {
-          method: "post",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(data),
+      fetchSignupAPI(data).then((dataRes) => {
+        toast(dataRes.message);
+
+        if (dataRes.alert) {
+          setTimeout(() => {
+            navigate("/login");
+          }, 500);
         }
-      );
-
-      const dataRes = await fetchData.json();
-
-      toast(dataRes.message);
-
-      if (dataRes.alert) {
-        setTimeout(() => {
-          navigate("/login");
-        }, 500);
-      }
+      });
     } else {
       toast("Please complete all information");
     }

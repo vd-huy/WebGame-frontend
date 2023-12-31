@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { setDataCategory } from "../redux/categorySlice";
 import toast from "react-hot-toast";
+import { fetchNewGameAPI } from "../apis";
+import { devices } from "../responsive";
 
 const Container = styled.div`
+  width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media ${devices.mobile} {
+    width: 100%;
+  }
 `;
 
 const Title = styled.label`
@@ -20,9 +25,12 @@ const Title = styled.label`
 const FormAddGame = styled.form`
   display: flex;
   flex-direction: column;
-  width: 40%;
+  width: 70%;
   border: 1px solid black;
   padding: 20px;
+  @media ${devices.mobile} {
+    width: 100%;
+  }
 `;
 
 const WrapInput = styled.div`
@@ -60,8 +68,6 @@ const ButtonSubmit = styled.button`
 `;
 
 const NewGame = () => {
-  const dispatch = useDispatch();
-
   const dataCategory = useSelector((state) => state.category.categoryList);
 
   const [dataSend, setDataSend] = useState({
@@ -79,15 +85,6 @@ const NewGame = () => {
     titleVideo: "",
     linkDowload: "",
   });
-
-  useEffect(() => {
-    (async () => {
-      const res = await fetch(`${process.env.REACT_APP_SERVER_DOMIN}/category`);
-      const resData = await res.json();
-
-      dispatch(setDataCategory(resData));
-    })();
-  }, []);
 
   const handleOnChangeCheckbox = (e) => {
     const { value, checked } = e.target;
@@ -149,41 +146,30 @@ const NewGame = () => {
       videoGame &&
       titleVideo
     ) {
-      const fetchData = await fetch(
-        `${process.env.REACT_APP_SERVER_DOMIN}/game/newgame`,
-        {
-          method: "post",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(dataSend),
+      fetchNewGameAPI(dataSend).then((data) => {
+        if (data.alert) {
+          toast(data.message);
+
+          setDataSend({
+            nameGame: "",
+            imgGame: "",
+            plotGame: "",
+            gamePlay: "",
+            gamePlayVideo: "",
+            developerGame: "",
+            publicBy: "",
+            gameType: [],
+            releaseGame: "",
+            fileSize: "",
+            videoGame: "",
+            titleVideo: "",
+            linkDowload: "",
+          });
+          window.location.reload(false);
+        } else {
+          toast(data.message);
         }
-      );
-
-      const dataRes = await fetchData.json();
-
-      if (dataRes.alert) {
-        toast(dataRes.message);
-
-        setDataSend({
-          nameGame: "",
-          imgGame: "",
-          plotGame: "",
-          gamePlay: "",
-          gamePlayVideo: "",
-          developerGame: "",
-          publicBy: "",
-          gameType: [],
-          releaseGame: "",
-          fileSize: "",
-          videoGame: "",
-          titleVideo: "",
-          linkDowload: "",
-        });
-        window.location.reload(false);
-      } else {
-        toast(dataRes.message);
-      }
+      });
     }
   };
 
