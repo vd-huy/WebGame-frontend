@@ -323,17 +323,17 @@ const Header = () => {
             <MenuLogin active={active}>
               {userData.role === "admin" && (
                 <>
-                  <StyleLink role={"dropMenu"} to={"/getlistgames"}>
-                    <MenuLoginItem>Danh Sách Game</MenuLoginItem>
+                  <StyleLink role={"dropMenu"} to={"/admin"}>
+                    <MenuLoginItem>Menu Admin</MenuLoginItem>
                   </StyleLink>
 
-                  <StyleLink role={"dropMenu"} to={"/addslide"}>
+                  {/* <StyleLink role={"dropMenu"} to={"/addslide"}>
                     <MenuLoginItem>Thêm Slide</MenuLoginItem>
                   </StyleLink>
 
                   <StyleLink role={"dropMenu"} to={"/newgames"}>
                     <MenuLoginItem>Thêm Game</MenuLoginItem>
-                  </StyleLink>
+                  </StyleLink> */}
                 </>
               )}
               <MenuLoginItem onClick={handleLogout}>Logout</MenuLoginItem>

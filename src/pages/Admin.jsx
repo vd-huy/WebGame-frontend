@@ -31,7 +31,6 @@ const Admin = () => {
     case "AddSlide":
       component = <AddSlide />;
       break;
-
     default:
       break;
   }

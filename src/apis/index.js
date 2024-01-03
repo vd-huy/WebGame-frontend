@@ -59,3 +59,12 @@ export const fetchGetSlideAPI = async () => {
 
   return response.data;
 };
+
+export const fetchUpdateGameAPI = async (data) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_SERVER_DOMIN}/game/updategame`,
+    data
+  );
+
+  return response.data;
+};

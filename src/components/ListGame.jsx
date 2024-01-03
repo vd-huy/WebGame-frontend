@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { paddingContainer, widthContainer } from "../globalVariable";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
 import { IoIosSettings } from "react-icons/io";
 import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
+import { setDateGameUpdate } from "../redux/gameSlice";
 
 const Container = styled.div`
   width: 70%;
@@ -37,9 +39,14 @@ const Column = styled.td`
 
 const Icon = styled.span`
   padding: 10px;
+  cursor: pointer;
 `;
 
 const ListGame = () => {
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
   const dataGame = useSelector((state) => state.game.gameList);
 
   const [pageCount, setPageCount] = useState(1);
@@ -61,6 +68,19 @@ const ListGame = () => {
     setStartDisplay(selectedPage * viewGameDisplay);
     setEndDisplay((selectedPage + 1) * viewGameDisplay);
   };
+
+  const handleClick = (desc, id) => {
+    switch (desc) {
+      case "update":
+        navigate(`/update/${id}`);
+        dispatch(
+          setDateGameUpdate(dataGame.filter((item) => item._id === id).shift())
+        );
+        break;
+      default:
+        break;
+    }
+  };
   return (
     <Container>
       <Title>Danh Sách Game</Title>
@@ -79,10 +99,18 @@ const ListGame = () => {
               <Column>{item.nameGame}</Column>
               <Column>{item.gameType.map((i) => i + ",")}</Column>
               <Column>
-                <Icon>
+                <Icon
+                  onClick={() => {
+                    handleClick("update", item._id);
+                  }}
+                >
                   <IoIosSettings />
                 </Icon>
-                <Icon>
+                <Icon
+                  onClick={() => {
+                    handleClick("delete");
+                  }}
+                >
                   <MdDelete />
                 </Icon>
               </Column>

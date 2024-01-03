@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  active: "",
+  active: "ListGame",
   //   listActive: ["ListGame", "AddGame", "AddSlide"],
 };
 

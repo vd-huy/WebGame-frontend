@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { paddingContainer, widthContainer } from "../globalVariable";
 import { devices } from "../responsive";
+import loading from "../assest/loading.svg";
 
 const Container = styled.div`
   margin: ${(props) => props.paddingContainer};
@@ -63,13 +64,15 @@ const Title = styled.h3`
 const Group = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) => (props.data ? "space-between" : "center")};
   align-items: center;
   flex-wrap: wrap;
 
   @media ${devices.mobile} {
   }
 `;
+
+const Loading = styled.img``;
 
 const GroupGame = ({ nameGroup, dataGame }) => {
   return (
@@ -79,12 +82,20 @@ const GroupGame = ({ nameGroup, dataGame }) => {
     >
       <Title>{nameGroup}</Title>
 
-      <Group>
-        {dataGame.slice(0, 9).map((item) => {
-          return (
-            <GroupGameItem imgGame={item.imgGame} nameGame={item.nameGame} />
-          );
-        })}
+      <Group data={dataGame[0]}>
+        {dataGame[0] ? (
+          dataGame.slice(0, 9).map((item, index) => {
+            return (
+              <GroupGameItem
+                imgGame={item.imgGame}
+                nameGame={item.nameGame}
+                slug={dataGame[index].slug}
+              />
+            );
+          })
+        ) : (
+          <Loading src={loading} alt="Loading" />
+        )}
       </Group>
     </Container>
   );

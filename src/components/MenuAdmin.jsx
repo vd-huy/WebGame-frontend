@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { CiBoxList } from "react-icons/ci";
 import { IoGameController } from "react-icons/io5";
 import { RiSlideshow3Fill } from "react-icons/ri";
+import { FaHome } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { setComponentActive } from "../redux/activeSlice";
 import { devices } from "../responsive";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 30%;
@@ -79,6 +81,8 @@ const Icon = styled.span`
 `;
 
 const MenuAdmin = () => {
+  const navigate = useNavigate();
+
   const [active, setActive] = useState("ListGame");
   const dispatch = useDispatch();
 
@@ -96,7 +100,11 @@ const MenuAdmin = () => {
         setActive("AddSlide");
         dispatch(setComponentActive("AddSlide"));
         break;
+      case "Home":
+        navigate("/");
+        break;
       default:
+        break;
     }
   };
 
@@ -146,6 +154,21 @@ const MenuAdmin = () => {
           </Icon>
           <ItemName active={active} desc="AddSlide">
             Thêm Slide
+          </ItemName>
+        </Item>
+
+        <Item
+          onClick={() => {
+            handleClick("Home");
+          }}
+          active={active}
+          desc="Home"
+        >
+          <Icon active={active} desc="Home">
+            <FaHome />
+          </Icon>
+          <ItemName active={active} desc="Home">
+            Trang chủ
           </ItemName>
         </Item>
       </ListItem>

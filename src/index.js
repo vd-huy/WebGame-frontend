@@ -19,6 +19,8 @@ import NewGame from "./pages/NewGame";
 import AddSlide from "./pages/AddSlide";
 import FindGame from "./pages/FindGame";
 import Admin from "./pages/Admin";
+import UpdateGame from "./pages/UpdateGame";
+import GameDetail from "./pages/GameDetail";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,8 +31,10 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<Signup />} />
       <Route path="/newgames" element={<NewGame />} />
       <Route path="/admin" element={<Admin />} />
+      <Route path="/update/:id" element={<UpdateGame />} />
       <Route path="/addslide" element={<AddSlide />} />
       <Route path="/search/" element={<FindGame />} />
+      <Route path="/game/:slug" element={<GameDetail />} />
     </Route>
   )
 );

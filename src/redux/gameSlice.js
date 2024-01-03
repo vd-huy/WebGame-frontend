@@ -4,6 +4,8 @@ const initialState = {
   gameList: [],
   gameListSortByCreateAt: [],
   gameListSortByUpdateAt: [],
+  gameUpdate: {},
+  gameDetail: {},
 };
 
 export const gameSlice = createSlice({
@@ -25,10 +27,23 @@ export const gameSlice = createSlice({
         return Number(new Date(b.updatedAt) - new Date(a.updatedAt));
       });
     },
+
+    setDateGameUpdate: (state, action) => {
+      state.gameUpdate = action.payload;
+    },
+
+    setDataGameDetail: (state, action) => {
+      state.gameDetail = action.payload;
+    },
   },
 });
 
-export const { setDataGame, sortByDateCreateAt, sortByDateUpdateAt } =
-  gameSlice.actions;
+export const {
+  setDataGame,
+  sortByDateCreateAt,
+  sortByDateUpdateAt,
+  setDateGameUpdate,
+  setDataGameDetail,
+} = gameSlice.actions;
 
 export default gameSlice.reducer;

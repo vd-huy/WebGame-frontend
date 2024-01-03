@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { devices } from "../responsive";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 30%;
+  cursor: pointer;
 
   @media ${devices.mobile} {
     width: 40%;
@@ -30,9 +32,15 @@ const NameGame = styled.h5`
   }
 `;
 
-const GroupGameItem = ({ imgGame, nameGame }) => {
+const GroupGameItem = ({ imgGame, nameGame, slug }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/game/${slug}`);
+  };
+
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <ImageGame src={imgGame} />
       <NameGame>{nameGame}</NameGame>
     </Container>
