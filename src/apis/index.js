@@ -68,3 +68,11 @@ export const fetchUpdateGameAPI = async (data) => {
 
   return response.data;
 };
+
+export const fetchGetDetailGame = async (slug) => {
+  const response = await axios.get(
+    `${process.env.REACT_APP_SERVER_DOMIN}/game//detail/${slug}`
+  );
+
+  return response.data;
+};
