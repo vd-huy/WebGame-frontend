@@ -42,13 +42,21 @@ const ListGameSearch = ({ filterData, isNull }) => {
       {filterData[0] ? (
         filterData.slice(startDisplay, endDisplay).map((item, index) => {
           return (
-            <GameSearchItem imgGame={item.imgGame} nameGame={item.nameGame} />
+            <GameSearchItem
+              imgGame={item.imgGame}
+              nameGame={item.nameGame}
+              slug={item.slug}
+            />
           );
         })
       ) : isNull ? (
         dataGame.map((item, index) => {
           return (
-            <GameSearchItem imgGame={item.imgGame} nameGame={item.nameGame} />
+            <GameSearchItem
+              imgGame={item.imgGame}
+              nameGame={item.nameGame}
+              slug={item.slug}
+            />
           );
         })
       ) : (

@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import Details from "../components/Details";
+import Footer from "../components/Footer";
 
 const Container = styled.div``;
 
@@ -15,6 +15,8 @@ const GameDetail = () => {
       <Header />
 
       <Details slug={slug} />
+
+      <Footer />
     </Container>
   );
 };

@@ -21,6 +21,7 @@ import FindGame from "./pages/FindGame";
 import Admin from "./pages/Admin";
 import UpdateGame from "./pages/UpdateGame";
 import GameDetail from "./pages/GameDetail";
+import CategoryFilter from "./pages/CategoryFilter";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
       <Route path="/admin" element={<Admin />} />
       <Route path="/update/:id" element={<UpdateGame />} />
       <Route path="/addslide" element={<AddSlide />} />
+      <Route path="/:slugCategory" element={<CategoryFilter />} />
       <Route path="/search/" element={<FindGame />} />
       <Route path="/game/:slug" element={<GameDetail />} />
     </Route>

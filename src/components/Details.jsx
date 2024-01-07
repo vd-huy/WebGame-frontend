@@ -5,6 +5,16 @@ import { paddingContainer } from "../globalVariable";
 import loading from "../assest/loading.svg";
 import { fetchGetDetailGame } from "../apis";
 import { GrNotes } from "react-icons/gr";
+import { TbWorld } from "react-icons/tb";
+import { MdOutlineCategory, MdOutlinePushPin } from "react-icons/md";
+import {
+  IoGameController,
+  IoNewspaperOutline,
+  IoCalendarNumberOutline,
+} from "react-icons/io5";
+import { FaPlus, FaLock } from "react-icons/fa";
+import { LuFileDown } from "react-icons/lu";
+import Config from "./Config";
 
 const Container = styled.div`
   padding: ${(props) => props.paddingContainer};
@@ -52,8 +62,45 @@ const Icon = styled.span`
   margin-right: 5px;
 `;
 
+const VideoYoutobe = styled.iframe`
+  display: block;
+  width: 90%;
+  height: 400px;
+  margin-bottom: 50px;
+`;
+
+const Dowload = styled.a`
+  height: 50px;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  display: flex;
+  color: white;
+  font-size: 20px;
+  background-color: red;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
+const PasswordWrap = styled.p`
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  width: 90%;
+`;
+
+const Password = styled.p`
+  color: red;
+  margin-left: 5px;
+  font-weight: 500;
+`;
+
 const Details = ({ slug }) => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    gameType: [],
+  });
 
   useEffect(() => {
     fetchGetDetailGame(slug).then((dataRes) => {
@@ -62,6 +109,20 @@ const Details = ({ slug }) => {
   }, [slug]);
 
   console.log(data);
+
+  const formatDate = (date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [day, month, year].join("/");
+  };
+
+  console.log(data.linkDowload);
 
   return (
     <Container paddingContainer={paddingContainer}>
@@ -93,7 +154,81 @@ const Details = ({ slug }) => {
               </Icon>
               Tên trò chơi: {data.nameGame}
             </InforContent>
+
+            <InforContent>
+              <Icon>
+                <TbWorld />
+              </Icon>
+              Trang chủ: BUY ON STEAM
+            </InforContent>
+
+            <InforContent>
+              <Icon>
+                <MdOutlineCategory />
+              </Icon>
+              Thể loại: {data.gameType.join(",")}
+            </InforContent>
+
+            <InforContent>
+              <Icon>
+                <IoGameController />
+              </Icon>
+              Nhà phát triển : {data.developerGame}
+            </InforContent>
+
+            <InforContent>
+              <Icon>
+                <IoNewspaperOutline />
+              </Icon>
+              Nhà xuất bản : {data.publicBy}
+            </InforContent>
+
+            <InforContent>
+              <Icon>
+                <IoCalendarNumberOutline />
+              </Icon>
+              Ngày phát hành : {formatDate(data.releaseGame)}
+            </InforContent>
+
+            <InforContent>
+              <Icon>
+                <MdOutlinePushPin />
+              </Icon>
+              Ngày cập nhật : {formatDate(data.updatedAt)}
+            </InforContent>
+
+            <InforContent>
+              <Icon>
+                <LuFileDown />
+              </Icon>
+              File tải về : {data.fileSize}
+            </InforContent>
           </InforGame>
+
+          <VideoYoutobe
+            src={data.videoGame}
+            title={data.titleGame}
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></VideoYoutobe>
+
+          <Dowload href={data.linkDowload}>
+            <Icon>
+              <FaPlus />
+            </Icon>
+            Dowload
+          </Dowload>
+
+          <PasswordWrap>
+            <Icon>
+              <FaLock />
+            </Icon>
+            Pass mở file tải game và Pass giải nén file game là:
+            <Password>hadoantv.com</Password>
+          </PasswordWrap>
+
+          <Config />
         </Content>
       ) : (
         <Loading src={loading} />

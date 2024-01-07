@@ -302,7 +302,7 @@ const Header = () => {
 
         {categoryData.map((item) => {
           return (
-            <StyleLink to={item.slug} desc={"menu"}>
+            <StyleLink to={`/${item.slug}`} desc={"menu"}>
               {item.category}
             </StyleLink>
           );

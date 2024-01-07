@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import Search from "../components/Search";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ListGameSearch from "../components/ListGameSearch";
 import { devices } from "../responsive";
 import { paddingContainer } from "../globalVariable";
@@ -66,8 +66,6 @@ const FindGame = () => {
       return item.nameGame.includes(nameGame);
     }
   });
-
-  console.log(nameGame);
 
   return (
     <Container>

@@ -93,12 +93,6 @@ const Bottom = styled.div`
 `;
 
 const Footer = () => {
-  const navigate = useNavigate();
-
-  const handleClick = (link) => {
-    navigate();
-  };
-
   return (
     <Container paddingContainer={paddingContainer}>
       <Top>
